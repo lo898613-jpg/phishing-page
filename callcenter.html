@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Call Center Connect | Soluciones de Atención al Cliente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #F7F0FF;
+    --bg2:      #EDE0FF;
+    --lavanda:  #D9BFFF;
+    --violeta:  #B88FE0;
+    --morado:   #8A56C2;
+    --deep:     #5E2D9B;
+    --white:    #FFFFFF;
+    --text:     #2E1A47;
+    --muted:    #7B6190;
+    --card:     #F0E6FF;
+    --border:   #D4B8F7;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* FONT FRAGMENT MONO */
+  .fm { font-family: 'Fragment Mono', monospace; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    backdrop-filter: blur(16px);
+    background: rgba(247, 240, 255, 0.85);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    height: 68px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fragment Mono', monospace;
+    font-size: 1.15rem;
+    color: var(--deep);
+    text-decoration: none;
+  }
+  .nav-logo .logo-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--violeta), var(--deep));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1.2rem;
+    box-shadow: 0 4px 14px rgba(94,45,155,0.35);
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--deep); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--morado), var(--deep));
+    color: white; border: none; border-radius: 24px;
+    padding: 10px 22px; font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 4px 16px rgba(94,45,155,0.3);
+  }
+  .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    padding: 100px 5% 60px;
+    background: linear-gradient(160deg, var(--bg) 0%, var(--bg2) 60%, #DEC9F8 100%);
+  }
+  /* Ondas de fondo animadas — firma visual */
+  .waves {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .wave {
+    position: absolute; border-radius: 50%;
+    border: 2px solid var(--lavanda);
+    opacity: 0;
+    animation: pulse-wave 5s ease-out infinite;
+  }
+  .wave:nth-child(1) { width: 320px; height: 320px; top: 40%; left: 65%; animation-delay: 0s; }
+  .wave:nth-child(2) { width: 480px; height: 480px; top: 33%; left: 60%; animation-delay: 1.2s; }
+  .wave:nth-child(3) { width: 640px; height: 640px; top: 26%; left: 55%; animation-delay: 2.4s; }
+  .wave:nth-child(4) { width: 800px; height: 800px; top: 18%; left: 50%; animation-delay: 3.6s; }
+
+  @keyframes pulse-wave {
+    0%  { opacity: 0;    transform: scale(0.85); }
+    20% { opacity: 0.6; }
+    100%{ opacity: 0;    transform: scale(1.15); }
+  }
+
+  .hero-content {
+    max-width: 620px; position: relative; z-index: 1;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 6px 16px;
+    font-size: 0.78rem; font-weight: 600; color: var(--morado);
+    margin-bottom: 28px; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .hero-badge .dot { width: 7px; height: 7px; background: #5EE087; border-radius: 50%; animation: blink 1.4s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero h1 {
+    font-family: 'Fragment Mono', monospace;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.15;
+    color: var(--deep);
+    margin-bottom: 22px;
+  }
+  .hero h1 span {
+    background: linear-gradient(90deg, var(--morado), var(--violeta));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 1.1rem; line-height: 1.75; color: var(--muted);
+    max-width: 520px; margin-bottom: 38px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--morado), var(--deep));
+    color: white; border: none; border-radius: 30px;
+    padding: 15px 32px; font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; box-shadow: 0 6px 20px rgba(94,45,155,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(94,45,155,0.45); }
+  .btn-secondary {
+    background: transparent; color: var(--deep);
+    border: 2px solid var(--border); border-radius: 30px;
+    padding: 13px 30px; font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; transition: background 0.2s, border-color 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { background: var(--card); border-color: var(--violeta); }
+
+  /* Hero image */
+  .hero-visual {
+    position: absolute; right: 3%; top: 50%; transform: translateY(-50%);
+    width: min(42%, 500px); z-index: 1;
+  }
+  .hero-img-wrap {
+    border-radius: 24px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(94,45,155,0.25);
+    border: 2px solid var(--border);
+  }
+  .hero-img-wrap img { width: 100%; display: block; }
+
+  /* Stats row */
+  .stats-band {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 36px 5%;
+    display: flex; justify-content: center; gap: 0;
+  }
+  .stat-item {
+    flex: 1; max-width: 200px;
+    text-align: center;
+    padding: 0 32px;
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Fragment Mono', monospace;
+    font-size: 2rem; font-weight: 700; color: var(--deep);
+    display: block;
+  }
+  .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 90px 5%; }
+  .section-label {
+    font-family: 'Fragment Mono', monospace;
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--morado); font-weight: 700; margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Fragment Mono', monospace;
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    color: var(--deep); line-height: 1.25; margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--muted); max-width: 560px; line-height: 1.7;
+  }
+  .center { text-align: center; }
+  .center .section-sub { margin: 0 auto; }
+
+  /* ── SERVICES ── */
+  #servicios { background: var(--bg2); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px; margin-top: 52px;
+  }
+  .service-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 20px; padding: 32px 28px;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .service-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(94,45,155,0.15); }
+  .svc-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--lavanda), var(--violeta));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; margin-bottom: 20px;
+  }
+  .service-card h3 {
+    font-family: 'Fragment Mono', monospace;
+    font-size: 1rem; color: var(--deep); margin-bottom: 10px;
+  }
+  .service-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+  .svc-tag {
+    display: inline-block; margin-top: 18px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 4px 12px;
+    font-size: 0.75rem; color: var(--morado); font-weight: 600;
+  }
+
+  /* ── HOW IT WORKS ── */
+  #proceso { background: var(--white); }
+  .steps { display: flex; gap: 0; margin-top: 56px; position: relative; }
+  .steps::before {
+    content: ''; position: absolute;
+    top: 28px; left: 52px; right: 52px; height: 2px;
+    background: linear-gradient(90deg, var(--lavanda), var(--violeta));
+  }
+  .step { flex: 1; text-align: center; padding: 0 20px; position: relative; z-index: 1; }
+  .step-num {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--morado), var(--deep));
+    color: white; font-family: 'Fragment Mono', monospace;
+    font-size: 1.1rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 4px 16px rgba(94,45,155,0.35);
+  }
+  .step h4 { font-family: 'Fragment Mono', monospace; font-size: 0.95rem; color: var(--deep); margin-bottom: 8px; }
+  .step p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── TEAM ── */
+  #equipo { background: var(--bg2); }
+  .team-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 28px; margin-top: 52px;
+  }
+  .team-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px 20px;
+    text-align: center;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .team-card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(94,45,155,0.15); }
+  .avatar {
+    width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 16px;
+    overflow: hidden;
+    border: 3px solid var(--lavanda);
+    background: var(--card);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .team-card h4 { font-family: 'Fragment Mono', monospace; font-size: 0.92rem; color: var(--deep); }
+  .team-card .role { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+  .team-card .badge {
+    display: inline-block; margin-top: 14px;
+    background: var(--card); border-radius: 10px; padding: 4px 12px;
+    font-size: 0.73rem; color: var(--morado); font-weight: 600;
+  }
+
+  /* ── TESTIMONIALS ── */
+  #testimonios { background: var(--white); }
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px; margin-top: 52px;
+  }
+  .testi-card {
+    background: linear-gradient(135deg, var(--card), var(--bg2));
+    border: 1px solid var(--border); border-radius: 20px; padding: 30px 26px;
+  }
+  .stars { color: #C084F5; font-size: 1rem; margin-bottom: 14px; letter-spacing: 2px; }
+  .testi-card blockquote {
+    font-size: 0.92rem; color: var(--text); line-height: 1.7; font-style: italic;
+    margin-bottom: 20px;
+  }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--violeta), var(--deep));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 1.05rem;
+    flex-shrink: 0;
+  }
+  .testi-author .name { font-size: 0.88rem; font-weight: 600; color: var(--deep); }
+  .testi-author .company { font-size: 0.78rem; color: var(--muted); }
+
+  /* ── PRICING ── */
+  #planes { background: var(--bg2); }
+  .plans-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px; margin-top: 52px; align-items: start;
+  }
+  .plan-card {
+    background: var(--white); border: 2px solid var(--border);
+    border-radius: 24px; padding: 36px 28px;
+    transition: transform 0.25s;
+  }
+  .plan-card.featured {
+    background: linear-gradient(160deg, var(--deep) 0%, var(--morado) 100%);
+    border-color: transparent; transform: scale(1.04);
+    box-shadow: 0 20px 50px rgba(94,45,155,0.4);
+    color: white;
+  }
+  .plan-card:not(.featured):hover { transform: translateY(-4px); }
+  .plan-name { font-family: 'Fragment Mono', monospace; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .plan-card:not(.featured) .plan-name { color: var(--muted); }
+  .plan-card.featured .plan-name { color: rgba(255,255,255,0.7); }
+  .plan-price { font-family: 'Fragment Mono', monospace; font-size: 2.4rem; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .plan-card:not(.featured) .plan-price { color: var(--deep); }
+  .plan-period { font-size: 0.8rem; opacity: 0.6; margin-bottom: 28px; }
+  .plan-features { list-style: none; margin-bottom: 32px; }
+  .plan-features li {
+    font-size: 0.88rem; padding: 8px 0;
+    border-bottom: 1px solid;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .plan-card:not(.featured) .plan-features li { border-color: var(--border); color: var(--muted); }
+  .plan-card.featured .plan-features li { border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); }
+  .plan-features li::before { content: '✦'; font-size: 0.6rem; flex-shrink: 0; }
+  .plan-card:not(.featured) .plan-features li::before { color: var(--violeta); }
+  .plan-card.featured .plan-features li::before { color: var(--lavanda); }
+  .btn-plan {
+    width: 100%; border-radius: 30px; padding: 13px;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer;
+    border: 2px solid; transition: all 0.2s;
+  }
+  .plan-card:not(.featured) .btn-plan {
+    background: transparent; color: var(--morado); border-color: var(--border);
+  }
+  .plan-card:not(.featured) .btn-plan:hover { background: var(--card); border-color: var(--violeta); }
+  .plan-card.featured .btn-plan {
+    background: white; color: var(--deep); border-color: transparent;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  }
+  .plan-card.featured .btn-plan:hover { opacity: 0.9; }
+
+  /* ── CONTACT ── */
+  #contacto {
+    background: linear-gradient(150deg, var(--deep) 0%, #3D1A6E 100%);
+    padding: 90px 5%; text-align: center;
+  }
+  #contacto .section-label { color: var(--lavanda); }
+  #contacto .section-title { color: white; }
+  #contacto .section-sub { color: rgba(255,255,255,0.65); margin: 0 auto 40px; }
+  .contact-form {
+    max-width: 560px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .contact-form input,
+  .contact-form textarea {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 14px; padding: 14px 18px;
+    color: white; font-size: 0.9rem; font-family: 'Inter', sans-serif;
+    outline: none; transition: border-color 0.2s, background 0.2s;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: rgba(255,255,255,0.4); }
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: var(--lavanda); background: rgba(255,255,255,0.15);
+  }
+  .contact-form textarea { resize: vertical; min-height: 110px; }
+  .contact-form button {
+    background: white; color: var(--deep); border: none; border-radius: 30px;
+    padding: 15px; font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    font-family: 'Fragment Mono', monospace;
+  }
+  .contact-form button:hover { opacity: 0.9; transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #1E0A35; color: rgba(255,255,255,0.5);
+    padding: 40px 5%; display: flex;
+    align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+  }
+  .footer-logo {
+    font-family: 'Fragment Mono', monospace;
+    color: var(--lavanda); font-size: 0.95rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .footer-logo .logo-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--violeta), var(--deep));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: white;
+  }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { color: rgba(255,255,255,0.4); font-size: 0.82rem; text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--lavanda); }
+  footer p { font-size: 0.78rem; }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s, transform 0.6s; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 860px) {
+    .hero-visual { display: none; }
+    .steps { flex-direction: column; align-items: flex-start; gap: 28px; }
+    .steps::before { display: none; }
+    .step { text-align: left; display: flex; gap: 18px; align-items: flex-start; }
+    .step-num { margin: 0; flex-shrink: 0; width: 46px; height: 46px; font-size: 1rem; }
+    .stats-band { flex-wrap: wrap; }
+    .stat-item { border-right: none; padding: 10px 0; }
+    .form-row { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="logo-icon">📞</span>
+    <span>Call Center<span style="color:var(--violeta)">_Connect</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#proceso">¿Cómo funciona?</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#planes">Planes</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+    Solicitar Demo
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="waves">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Operaciones 24 / 7
+    </div>
+    <h1>Atención al cliente que <span>realmente conecta</span></h1>
+    <p>Somos el centro de contacto omnicanal que tu empresa necesita. Integramos voz, chat y soporte digital para que ningún cliente quede sin respuesta.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+        📲 Habla con nosotros
+      </button>
+      <button class="btn-secondary" onclick="document.getElementById('servicios').scrollIntoView({behavior:'smooth'})">
+        Ver servicios →
+      </button>
+    </div>
+  </div>
+
+  <!-- Hero visual: imagen de call center con Unsplash -->
+  <div class="hero-visual">
+    <div class="hero-img-wrap">
+      <img
+        src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=700&q=80"
+        alt="Agente de call center con headset"
+        onerror="this.src='https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=700&q=80'"
+      />
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stat-item">
+    <span class="stat-num fm">+500K</span>
+    <div class="stat-label">Llamadas atendidas al mes</div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num fm">98.4%</span>
+    <div class="stat-label">Satisfacción del cliente</div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num fm">< 45s</span>
+    <div class="stat-label">Tiempo de respuesta</div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num fm">2 sedes</span>
+    <div class="stat-label">Bogotá · Medellín</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="servicios">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-label">Lo que ofrecemos</div>
+    <h2 class="section-title">Servicios diseñados<br>para cada canal</h2>
+    <p class="section-sub">Desde soporte técnico hasta ventas outbound, cubrimos todas las necesidades de comunicación de tu negocio.</p>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="svc-icon">📞</div>
+        <h3>Atención Inbound</h3>
+        <p>Recibimos y gestionamos las llamadas de tus clientes con agentes capacitados, scripts personalizados y KPIs en tiempo real.</p>
+        <span class="svc-tag">Voz · Chat · Email</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="svc-icon">📣</div>
+        <h3>Ventas Outbound</h3>
+        <p>Campañas de telemercadeo, seguimiento de leads y cierre de ventas con métricas detalladas de conversión.</p>
+        <span class="svc-tag">Televentas · CRM</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="svc-icon">🤖</div>
+        <h3>Soporte con IA</h3>
+        <p>Bots conversacionales que resuelven hasta el 60 % de las consultas sin intervención humana, integrados con tu plataforma.</p>
+        <span class="svc-tag">Chatbot · NLP</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="svc-icon">📊</div>
+        <h3>Reportes y Analytics</h3>
+        <p>Dashboards en tiempo real, grabación de llamadas y análisis de sentimiento para mejorar la experiencia continuamente.</p>
+        <span class="svc-tag">BI · Reporting</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="svc-icon">🔒</div>
+        <h3>Cumplimiento y Seguridad</h3>
+        <p>Infraestructura certificada bajo normas de protección de datos (Habeas Data Colombia, GDPR), con auditorías periódicas.</p>
+        <span class="svc-tag">Seguridad · Compliance</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="svc-icon">🌐</div>
+        <h3>Soporte Multicanal</h3>
+        <p>Integramos WhatsApp Business, redes sociales, correo y portal web en una sola bandeja unificada para tus agentes.</p>
+        <span class="svc-tag">Omnicanal · API</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-label center">Nuestro proceso</div>
+    <h2 class="section-title center">De la consulta al resultado<br>en cuatro pasos</h2>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div>
+          <h4>Diagnóstico</h4>
+          <p>Analizamos tu operación, volúmenes de contacto y objetivos para diseñar una solución a la medida.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <div>
+          <h4>Diseño</h4>
+          <p>Creamos scripts, flujos de escalamiento y configuramos las herramientas tecnológicas necesarias.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <div>
+          <h4>Lanzamiento</h4>
+          <p>Capacitamos al equipo, realizamos pruebas piloto y activamos el servicio con monitoreo constante.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <div>
+          <h4>Optimización</h4>
+          <p>Revisamos KPIs semanalmente y ajustamos procesos para mejorar NPS, FCR y satisfacción continuamente.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section id="equipo">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-label center">Nuestro equipo</div>
+    <h2 class="section-title center">Las personas detrás<br>de cada llamada</h2>
+    <p class="section-sub center">Profesionales certificados en atención al cliente, telecomunicaciones y gestión de datos.</p>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <div class="avatar">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&q=80" alt="Directora General" onerror="this.parentElement.innerHTML='👩‍💼'" />
+        </div>
+        <h4>Andrea Molina</h4>
+        <p class="role">Directora General</p>
+        <span class="badge">Bogotá</span>
+      </div>
+      <div class="team-card reveal">
+        <div class="avatar">
+          <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&q=80" alt="Líder de Operaciones" onerror="this.parentElement.innerHTML='👩‍💻'" />
+        </div>
+        <h4>Carlos Herrera</h4>
+        <p class="role">Líder de Operaciones</p>
+        <span class="badge">Medellín</span>
+      </div>
+      <div class="team-card reveal">
+        <div class="avatar">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" alt="Jefe de Tecnología" onerror="this.parentElement.innerHTML='👨‍💻'" />
+        </div>
+        <h4>Felipe Torres</h4>
+        <p class="role">Jefe de Tecnología</p>
+        <span class="badge">Bogotá</span>
+      </div>
+      <div class="team-card reveal">
+        <div class="avatar">
+          <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?w=200&q=80" alt="Coordinadora QA" onerror="this.parentElement.innerHTML='👩‍🔬'" />
+        </div>
+        <h4>Valeria Ospina</h4>
+        <p class="role">Coordinadora QA</p>
+        <span class="badge">Bogotá</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Imagen ambiental -->
+<div style="overflow:hidden;max-height:340px;position:relative;">
+  <img
+    src="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1400&q=75"
+    alt="Oficina de call center moderna"
+    style="width:100%;object-fit:cover;object-position:center 40%;display:block;filter:saturate(0.7) hue-rotate(210deg) brightness(0.9);"
+    onerror="this.style.display='none'"
+  />
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom, transparent 50%, var(--bg2));"></div>
+</div>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-label center">Testimonios</div>
+    <h2 class="section-title center">Lo que dicen<br>nuestros clientes</h2>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Desde que contratamos a Call Center Connect, el tiempo de espera de nuestros clientes bajó un 40 %. El equipo es increíblemente profesional."</blockquote>
+        <div class="testi-author">
+          <div class="testi-avatar">LR</div>
+          <div>
+            <div class="name">Laura Rodríguez</div>
+            <div class="company">E-commerce Colombia</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Los reportes en tiempo real nos permiten tomar decisiones al instante. La integración con nuestro CRM fue perfecta y sin fricciones."</blockquote>
+        <div class="testi-author">
+          <div class="testi-avatar">MG</div>
+          <div>
+            <div class="name">Miguel Gómez</div>
+            <div class="company">Fintech Andina</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★☆</div>
+        <blockquote>"El soporte con IA resuelve la mayoría de consultas sin escalar. Ahorramos personal y la satisfacción del cliente no bajó, todo lo contrario."</blockquote>
+        <div class="testi-author">
+          <div class="testi-avatar">SP</div>
+          <div>
+            <div class="name">Sofía Pedraza</div>
+            <div class="company">Retail MegaStore</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANES -->
+<section id="planes">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div class="section-label center">Planes</div>
+    <h2 class="section-title center">Elige el plan<br>que más te conviene</h2>
+    <p class="section-sub center">Sin contratos de permanencia. Cancela cuando quieras.</p>
+    <div class="plans-grid">
+      <!-- Básico -->
+      <div class="plan-card reveal">
+        <div class="plan-name">Básico</div>
+        <div class="plan-price">$450K</div>
+        <div class="plan-period">COP / mes</div>
+        <ul class="plan-features">
+          <li>5 agentes dedicados</li>
+          <li>Atención telefónica</li>
+          <li>Reportes semanales</li>
+          <li>Soporte 8×5</li>
+        </ul>
+        <button class="btn-plan">Empezar →</button>
+      </div>
+      <!-- Pro (destacado) -->
+      <div class="plan-card featured reveal">
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$950K</div>
+        <div class="plan-period">COP / mes · Más popular</div>
+        <ul class="plan-features">
+          <li>15 agentes dedicados</li>
+          <li>Omnicanal completo</li>
+          <li>Dashboard en tiempo real</li>
+          <li>Soporte 24×7</li>
+          <li>Integración CRM</li>
+          <li>IA conversacional</li>
+        </ul>
+        <button class="btn-plan">Elegir Pro →</button>
+      </div>
+      <!-- Enterprise -->
+      <div class="plan-card reveal">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price">A medida</div>
+        <div class="plan-period">Cotización personalizada</div>
+        <ul class="plan-features">
+          <li>Agentes ilimitados</li>
+          <li>SLA garantizado</li>
+          <li>Infraestructura dedicada</li>
+          <li>Gerente de cuenta</li>
+        </ul>
+        <button class="btn-plan">Contactar →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contacto">
+  <div class="section-label">Contáctanos</div>
+  <h2 class="section-title">¿Listo para transformar<br>tu atención al cliente?</h2>
+  <p class="section-sub">Escríbenos y un asesor te contactará en menos de 24 horas para agendar tu demo gratuita.</p>
+  <form class="contact-form" onsubmit="handleSubmit(event)">
+    <div class="form-row">
+      <input type="text" placeholder="Tu nombre" required />
+      <input type="text" placeholder="Empresa" />
+    </div>
+    <div class="form-row">
+      <input type="email" placeholder="Correo electrónico" required />
+      <input type="tel" placeholder="Teléfono / WhatsApp" />
+    </div>
+    <textarea placeholder="Cuéntanos sobre tu operación y necesidades..."></textarea>
+    <button type="submit">Enviar solicitud →</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <span class="logo-icon">📞</span>
+    Call Center Connect
+  </div>
+  <div class="footer-links">
+    <a href="#">Política de privacidad</a>
+    <a href="#">Términos de uso</a>
+    <a href="#">Habeas Data</a>
+    <a href="#">Bogotá · Medellín</a>
+  </div>
+  <p>© 2025 Call Center Connect. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = '✅ ¡Solicitud enviada!';
+    btn.style.background = '#C9A8E8';
+    btn.style.color = '#2E1A47';
+    setTimeout(() => {
+      btn.textContent = 'Enviar solicitud →';
+      btn.style.background = '';
+      btn.style.color = '';
+      e.target.reset();
+    }, 3000);
+  }
+</script>
+</body>
+</html>
